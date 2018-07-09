@@ -78,16 +78,36 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url('/home') }}" >
+                        @csrf
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                        <div class="form-group row">
+                            <label for="url" class="col-sm-4 col-form-label text-md-right">{{ __('URL') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="url" type="text" class="form-control" name="url" required autofocus>
+
+                                @if ($errors->has('url'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('url') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group row ">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    send
+                                </button>
+
+
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
