@@ -17,11 +17,13 @@ class ParsController extends Controller
     public function index()
     {
         $client = new Client();
-        $res = $client->request('GET', 'https://www.youtube.com/embed/tgbNymZ7vqY');
+        $res = $client->request('GET', 'https://www.youtube.com/watch?v=V6hmvgLo0Cc');
         $code = $res->getStatusCode();
         $res->getHeaderLine('content-type');
         $text = $res->getBody();//->getContents()
         //print_r($text);
+
+        //Captins
         $main_str=$text;
 
         //искомый текст
@@ -32,6 +34,15 @@ class ParsController extends Controller
         $pos2 = strpos($main_str, $my_str2);
         $lengt=$pos2-$pos;
         $rest = substr($text, $pos+7, $lengt-7);
+        //description
+        $description=$text;
+        $my_str3='name="description"';
+        $my_str4='>';
+        echo $pos3 = strpos($description, $my_str3);
+        //
+        $rest = substr($text, $pos3,300 );
+        echo $pos4 = strpos($rest , $my_str4);
+        $rest = substr($rest , 0,$pos4 );
         return view('pars',[ 'text'  => $rest]);
 
         //return view('pars');
@@ -44,7 +55,7 @@ class ParsController extends Controller
      */
     public function create()
     {
-
+        return view('pars.create',['pars'=>new ParsModel()]);//добавляем пустую переменную pars
 
     }
 
@@ -56,7 +67,17 @@ class ParsController extends Controller
      */
     public function store(Request $request)
     {
-    //
+        $desc="content";
+        $picture="picture";
+        $file = $request->file('file');
+        $pars=ParsModel::create([
+            'iframe_video'=>$request->get('url'),
+            'caption'=>$rest,
+            'description'=>$desc,
+            'picture'=>$picture,
+        ]);
+
+        return redirect('/message');
     }
 
 
