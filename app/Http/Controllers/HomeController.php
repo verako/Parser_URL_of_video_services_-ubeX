@@ -55,33 +55,56 @@ class HomeController extends Controller
         $res->getHeaderLine('content-type');
         $text = $res->getBody();//->getContents()
         //print_r($text);
-        $main_str=$text;
+
+        //Captins
+        $captins=$text;
 
         //искомый текст
         $my_str='<title>';
         $my_str2='</title>';
 
-        $pos = strpos($main_str, $my_str);
-        $pos2 = strpos($main_str, $my_str2);
-        $lengt=$pos2-$pos;
-        $rest = substr($text, $pos+7, $lengt-7);
+        $pos = strpos($captins, $my_str);
+        $pos2 = strpos($captins, $my_str2);
+        $lengt=$pos2-$pos-7;//
+        $rest = substr($captins, $pos+7, $lengt);
 
         //description
         $description=$text;
         $my_str3='name="description"';
-        $my_str4='>';
-        echo $pos3 = strpos($description, $my_str3);
-        //
-        $rest = substr($text, $pos3,300 );
-        echo $pos4 = strpos($rest , $my_str4);
-        $desc = substr($rest , 0,$pos4 );
-        $picture="picture";
+        $my_str4='"';
+        $pos3 = strpos($description, $my_str3);
+        //echo $lengt1=$pos4-$pos3;//-44;
+        $rest1 = substr($description, $pos3+28, -1);
+        $pos4 = strpos($rest1 , $my_str4);
+        $rest1 = substr($rest1, 0, $pos4);
+
+        //picture
+        $picture=$text;
+        $my_str5='property="og:image"';
+        $my_str6='>';
+        $pos5 = strpos($picture, $my_str5);
+        $rest2 = substr($picture, $pos5+29, -1);
+        $pos6 = strpos($rest2, $my_str6);
+        $rest2 = substr($rest2, 0, $pos6-1);
+
+        //iframe
+        $iframe=$text;
+        $my_str7='name="twitter:player"';
+        $pos7 = strpos($iframe, $my_str7);
+        $rest3 = substr($iframe, $pos7, -1);
+        $my_str8='htt';
+        $pos8 = strpos($rest3 , $my_str8);
+        $rest3 = substr($rest3, $pos8, -1);
+        $my_str9='"';
+        $pos9 = strpos($rest3 , $my_str9);
+        $rest3 = substr($rest3, 0, $pos9);
+
         $file = $request->file('file');
         $pars=ParsModel::create([
-            'iframe_video'=>$request->get('url'),
+            'iframe_video'=>$rest3,
             'caption'=>$rest,
-            'description'=>$desc,
-            'picture'=>$picture,
+            'description'=>$rest1,
+            'picture'=>$rest2,
         ]);
         //return view('pars',[ 'text'  => $rest]);
 

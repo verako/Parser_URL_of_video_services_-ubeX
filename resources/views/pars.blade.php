@@ -3,9 +3,9 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">My selection of videos</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,9 +13,19 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        <p>{{$text}}</p>
-                        <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY" width="420" height="345"></iframe>
-                    You are logged in!
+
+                    @foreach($myvideo as $video)
+                        <div>
+                            <h3>{{$video['caption']}}</h3>
+
+                            <iframe src="{{$video['iframe_video']}}" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            <p>{{$video['description']}}</p>
+                            <hr>
+                        </div>
+
+
+
+                    @endforeach
                 </div>
             </div>
         </div>
