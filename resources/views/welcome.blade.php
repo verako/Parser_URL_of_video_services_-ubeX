@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Video</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -70,9 +70,11 @@
                 <div class="top-right links">
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/pars') }}">Video</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
                         <a href="{{ route('register') }}">Register</a>
+                        <a href="{{ url('/pars') }}">Video</a>
                     @endauth
                 </div>
             @endif
@@ -80,6 +82,7 @@
             <div class="content">
                 <div class="card-body">
                     <form method="POST" action="{{ url('/home') }}" >
+
                         @csrf
 
                         <div class="form-group row">

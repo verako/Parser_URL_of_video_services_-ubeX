@@ -26,7 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('welcome');
     }
 
     /**
@@ -48,8 +48,12 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
+
         $client = new Client();
         $url=$request->get('url');
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            echo("$url is a valid URL");
+
         $res = $client->request('GET', $url);//get('url');//
         $code = $res->getStatusCode();
         $res->getHeaderLine('content-type');
@@ -106,8 +110,11 @@ class HomeController extends Controller
             'description'=>$rest1,
             'picture'=>$rest2,
         ]);
-        //return view('pars',[ 'text'  => $rest]);
+           return redirect('/pars');
 
-        return redirect('/pars');
+        } else {
+            echo("$url : is not a valid URL");
+        }
+
     }
 }
