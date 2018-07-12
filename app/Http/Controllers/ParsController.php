@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\ParsModel;
 
+
 class ParsController extends Controller
 {
     /**
@@ -16,7 +17,8 @@ class ParsController extends Controller
      */
     public function index()
     {
-            $pars=ParsModel::all();
+
+            $pars=ParsModel::orderBy('created_at', 'ABC')->get();
 
             return view('pars',[ 'myvideo'  => $pars]);
 
@@ -63,7 +65,8 @@ class ParsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pars=ParsModel::findOrFail($id);
+        return view('pars.index',['pars'=>$pars]);
     }
 
     /**
@@ -75,7 +78,10 @@ class ParsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $pars=ParsModel::findOrFail($id);
+        $pars->fill($request->only(['description']));
+        $pars->save();
+        return redirect()->back();
     }
 
     /**
@@ -86,6 +92,11 @@ class ParsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //удаляем строку
+        $pars=ParsModel::find($id);
+        ParsModel::find($id)->delete();
+        return redirect()->back();
     }
+
+
 }
